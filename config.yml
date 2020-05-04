@@ -1,0 +1,12 @@
+workers:
+  - worker1:
+      host: localhost
+      port: 5000
+
+  - worker2:
+      host: localhost
+      port: 5001
+
+  - worker3:
+      host: localhost
+      port: 5002

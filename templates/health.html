@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+<!--table, th, td {-->
+<!--  border: 1px solid black;-->
+<!--   align: center;-->
+<!--}-->
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+}
+
+.table {
+    font-size: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+ }
+
+ .table .header {
+    font-weight: bold;
+    border-top: solid 1px #323232;
+ }
+
+.table div {
+    font-family: sans-serif;
+    padding: 10px;
+    border-bottom: solid 1px #323232;
+    background: #eee;
+ }
+
+</style>
+</head>
+<body>
+
+<!--<table>-->
+<!--  <tr>-->
+<!--    <th>Host</th>-->
+<!--    <th>Status</th>-->
+<!--    <th>Health</th>-->
+<!--  </tr>-->
+<!--    {% for host in data %}-->
+<!--    <tr>-->
+<!--    <td>{{ host }}</td>-->
+<!--    <td>{{ data[host]}}</td>-->
+<!--    {% if data[host] ==200 %}-->
+<!--        <td><span style="color: green">&#10003;</span></td>-->
+<!--    {% else %}-->
+<!--        <td><span style="color: red; font-size:160%;">&#215;</span></td>-->
+<!--    {% endif %}-->
+<!--    </tr>-->
+<!--    {% endfor %}-->
+
+<!--</table>-->
+
+<h1>Workers Health</h1>
+
+<div class="table">
+    <div class="header">Host</div>
+    <div class="header">Status</div>
+    <div class="header">Health</div>
+    {% for host in data %}
+    <div>{{ host }}</div>
+    <div>{{ data[host]}}</div>
+    {% if data[host] ==200 %}
+        <div><span style="color: green">&#10003;</span></div>
+    {% else %}
+        <div><span style="color: red; font-size:160%;">&#215;</span></div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+</body>
+</html>
