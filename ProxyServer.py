@@ -4,6 +4,7 @@ import json
 import random
 import requests
 import argparse
+from multiprocessing import Process
 from flask import request, jsonify
 from flask import render_template
 from src.utils import get_configs, get_host_from_configs
@@ -174,6 +175,61 @@ def health_check(host_list):
     return health_dict
 
 
+class StartService():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def run_flask():
+        app.run(host='0.0.0.0', port=8000, debug=False, use_reloader=True)
+
+
+class RequestObj:
+    def __init__(self,data):
+        self.data = data
+
+
+def handle_cli(fl):
+    fl.start()
+    command = ''
+    while command != 'q':
+        command = input(
+            '----------------------------------------------\
+            \n[SET] <key> <value>\n[GET] <key>\n[DELETE] <key> \n[q] quit. \
+            \n----------------------------------------------\
+            \n\nEnter Command: ').split()
+        print(command)
+        if len(command) != 0:
+            if command[0] == 'SET':
+                if len(command) == 3:
+                    data = [{'key': command[1], 'value':command[2]}]
+                    req = RequestObj(data)
+                    res = request_handler.handle_set(req)
+                    print(res)
+                else:
+                    print("ERROR: While SET Check for Usage")
+
+            if command[0] == 'GET':
+                if len(command) == 2:
+                    data = [{'key': command[1]}]
+                    req = RequestObj(data)
+                    res = request_handler.handle_get(req)
+                    print(res)
+                else:
+                    print("ERROR: While GET Check for Usage")
+
+            if command[0] == 'DELETE':
+                if len(command) == 2:
+                    data = [{'key': command[1]}]
+                    req = RequestObj(data)
+                    res = request_handler.handle_delete(req)
+                    print(res)
+                else:
+                    print("ERROR: While DELETE Check for Usage")
+            elif command[0] == 'q':
+                fl.terminate()
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -190,7 +246,10 @@ if __name__ == "__main__":
     request_handler = RequestHandler(host)
     health_check(host)
 
-    app.run(port=8000, threaded=True)
+    flask_app = StartService.run_flask
+    fl = Process(target=flask_app)
+    handle_cli(fl)
+
 
 
 
