@@ -10,3 +10,5 @@ workers:
   - worker3:
       host: localhost
       port: 5002
+
+replication_factor: 1
