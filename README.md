@@ -4,8 +4,7 @@ Distrubute Key Value Store uses in memory store to store data. A key-value store
 
 # How to run this ?
  - Run the Node(s) server
- - Run the Proxy/Master server
-- Call the API(s)
+ - Use CLI or Call the API(s)
 
 # Run the Node(s) server
  - server.py could be running at different machine or at the same one.
@@ -26,11 +25,6 @@ Distrubute Key Value Store uses in memory store to store data. A key-value store
     This will spin up three different server nodes. 
 
 
-# Run the Proxy/Master server
-  - Once the workers are up run the Proxy/Master server 
-    ```sh
-    $ python ProxyServer.py localhost:5000 localhost:5001 localhost:5002
-    ```
 - If the host params are not passed it will  look into config.yml
     ```py
     workers:
@@ -45,12 +39,21 @@ Distrubute Key Value Store uses in memory store to store data. A key-value store
       - worker3:
           host: localhost
           port: 5002
+    
+  replication_factor: 1
     ```
     
-- Can also be run start by start_master.sh file
-    ```sh
-    $ sh start_master.sh localhost:5000 localhost:5001 localhost:5002
-    ```
+#CLI
+----------------------------------------------            
+```
+[SET] <key> <value>
+[GET] <key>
+[DELETE] <key> 
+[q] quit.             
+----------------------------------------------            
+
+Enter Command: 
+```
     
     
 # API
@@ -63,8 +66,8 @@ Distrubute Key Value Store uses in memory store to store data. A key-value store
 ###### To SET the key - value pair in store
  ```sh
  curl -H 'Content-Type: application/json' -X PUT \
--d '[{"key": "1","value": "Neelesh"},{"key": "2","value": "Batham"}]'
-http://localhost:8000/set
+-d '{"key": "1","value": "Neelesh"}'
+http://localhost:5000/set
  ```
     
 ##### GET:
@@ -73,7 +76,7 @@ http://localhost:8000/set
  ```sh
  curl -H 'Content-Type: application/json' -X POST \
 -d '[{"key": "1"}]'
-http://localhost:8000/get
+http://localhost:5000/get
  ```
     
 ##### DELETE/EXPIRE:
@@ -81,8 +84,8 @@ http://localhost:8000/get
 
  ```sh
  curl -H 'Content-Type: application/json' -X POST \
--d '[{"key": "1"}]'
-http://localhost:8000/delete
+-d '{"key": "1"}'
+http://localhost:5000/delete
  ```
 ##### HEALTH/STATUS
 ###### To check HEALTH of the workers.
